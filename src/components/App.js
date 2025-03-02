@@ -40,14 +40,9 @@ const menuData = [
 const App = () => {
   // State for menu items and selected category
   const [menuItems, setMenuItems] = useState(menuData);
-  const [activeCategory, setActiveCategory] = useState("all");
-
-  // Get unique categories
-  const categories = ["all", ...new Set(menuData.map(item => item.category))];
 
   // Filter menu items by category
   const filterItems = (category) => {
-    setActiveCategory(category);
     if (category === "all") {
       setMenuItems(menuData);
       return;
@@ -57,33 +52,28 @@ const App = () => {
   };
 
   return (
-    <div className="menu-container">
+    <div id="main">
       <h1>Our Menu</h1>
       
       {/* Category Buttons */}
-      <div className="categories">
-        {categories.map((category, index) => (
-          <button
-            key={index}
-            className={`filter-btn ${activeCategory === category ? 'active' : ''}`}
-            onClick={() => filterItems(category)}
-          >
-            {category.charAt(0).toUpperCase() + category.slice(1)}
-          </button>
-        ))}
+      <div className="menu-buttons">
+        <button id="filter-btn-0" onClick={() => filterItems("all")}>All</button>
+        <button id="filter-btn-1" onClick={() => filterItems("breakfast")}>Breakfast</button>
+        <button id="filter-btn-2" onClick={() => filterItems("lunch")}>Lunch</button>
+        <button id="filter-btn-3" onClick={() => filterItems("shakes")}>Shakes</button>
       </div>
 
       {/* Menu Items */}
       <div className="menu-items">
         {menuItems.map(item => (
-          <div key={item.id} className="menu-item">
-            <img src={item.img} alt={item.title} className="menu-img" />
+          <div key={item.id} className="menu-item" data-test-id={`menu-item-${item.category}`}>
+            <img src={item.img} alt={item.title} />
             <div className="item-info">
               <header>
                 <h4>{item.title}</h4>
                 <h4 className="price">${item.price}</h4>
               </header>
-              <p className="item-text">{item.desc}</p>
+              <p>{item.desc}</p>
             </div>
           </div>
         ))}
