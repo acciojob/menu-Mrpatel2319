@@ -26,52 +26,60 @@ const menuItems = [
     img: "./images/item-3.jpeg",
     desc: "ombucha chillwave fanny pack 3 wolf moon street art photo booth before they sold out organic viral."
   }
-  // Add more items as needed
 ];
 
-const App = () => {
+function App() {
   const [items, setItems] = useState(menuItems);
-  const categories = ["All", "Breakfast", "Lunch", "Shakes"];
 
   const filterItems = (category) => {
     if (category === "All") {
       setItems(menuItems);
-      return;
+    } else {
+      const newItems = menuItems.filter((item) => item.category === category);
+      setItems(newItems);
     }
-    const filteredItems = menuItems.filter(item => item.category === category);
-    setItems(filteredItems);
   };
 
   return (
-    <div>
-      <h1>Our Menu</h1>
-      <div className="btn-container">
-        {categories.map((category, index) => (
-          <button
-            key={index}
-            id={`filter-btn-${index}`}
-            onClick={() => filterItems(category)}
-          >
-            {category}
+    <main>
+      <section className="menu section">
+        <div className="title">
+          <h2>Our Menu</h2>
+        </div>
+        <div className="btn-container">
+          <button id="filter-btn-0" onClick={() => filterItems("All")}>
+            All
           </button>
-        ))}
-      </div>
-      <div className="section-center">
-        {items.map(item => (
-          <article key={item.id} className="menu-item">
-            <img src={item.img} alt={item.title} className="photo" />
-            <div className="item-info">
-              <header>
-                <h4>{item.title}</h4>
-                <h4 className="price">${item.price}</h4>
-              </header>
-              <p className="item-text">{item.desc}</p>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
+          <button id="filter-btn-1" onClick={() => filterItems("Breakfast")}>
+            Breakfast
+          </button>
+          <button id="filter-btn-2" onClick={() => filterItems("Lunch")}>
+            Lunch
+          </button>
+          <button id="filter-btn-3" onClick={() => filterItems("Shakes")}>
+            Shakes
+          </button>
+        </div>
+        <div className="section-center">
+          {items.map((menuItem) => {
+            const { id, title, img, desc, price } = menuItem;
+            return (
+              <article key={id} className="menu-item">
+                <img src={img} alt={title} className="photo" />
+                <div className="item-info">
+                  <header>
+                    <h4>{title}</h4>
+                    <h4 className="price">${price}</h4>
+                  </header>
+                  <p className="item-text">{desc}</p>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+    </main>
   );
-};
+}
 
 export default App;
