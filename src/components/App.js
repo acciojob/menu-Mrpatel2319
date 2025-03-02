@@ -1,84 +1,72 @@
-import React, { useState } from "react";
-import './../styles/App.css';
+// App.js
+import React, { useState } from 'react';
+import Menu from './Menu';
 
-// Menu data
 const menuData = [
   {
     id: 1,
-    title: "Buttermilk Pancakes",
-    category: "breakfast",
+    title: 'Buttermilk Pancakes',
+    category: 'Breakfast',
     price: 15.99,
-    img: "/images/pancakes.jpg",
-    desc: "I'm baby woke mlkshk wolf bitters live-edge blue bottle, hammock freegan copper mug whatever cold-pressed"
+    img: '/images/pancakes.jpg',
+    desc: 'Stack of fluffy buttermilk pancakes topped with fresh berries and syrup'
   },
   {
     id: 2,
-    title: "Diner Double",
-    category: "lunch",
+    title: 'Diner Double',
+    category: 'Lunch',
     price: 13.99,
-    img: "/images/burger.jpg",
-    desc: "vaporware iPhone mumblecore selvage raw denim slow-carb leggings gochujang helvetica man braid jianbing"
+    img: '/images/burger.jpg',
+    desc: 'Classic double burger with fries and dipping sauce'
   },
   {
     id: 3,
-    title: "Godzilla Milkshake",
-    category: "shakes",
+    title: 'Godzilla Milkshake',
+    category: 'Shakes',
     price: 6.99,
-    img: "/images/milkshake.jpg",
-    desc: "ombucha chillwave fanny pack 3 wolf moon street art photo booth before they sold out organic viral"
+    img: '/images/milkshake.jpg',
+    desc: 'Loaded milkshake with whipped cream and strawberry topping'
   },
-  {
-    id: 4,
-    title: "Country Delight",
-    category: "breakfast",
-    price: 20.99,
-    img: "/images/eggs.jpg",
-    desc: "Shabby chic keffiyeh neutra snackwave pork belly shoreditch. Prism austin mlkshk truffaut"
-  }
+  // Add more menu items as needed
 ];
 
 const App = () => {
-  // State for menu items and selected category
   const [menuItems, setMenuItems] = useState(menuData);
+  const [activeCategory, setActiveCategory] = useState('All');
 
-  // Filter menu items by category
+  const categories = ['All', 'Breakfast', 'Lunch', 'Shakes'];
+
   const filterItems = (category) => {
-    if (category === "all") {
+    setActiveCategory(category);
+    if (category === 'All') {
       setMenuItems(menuData);
       return;
     }
-    const filteredItems = menuData.filter(item => item.category === category);
-    setMenuItems(filteredItems);
+    const newItems = menuData.filter(item => item.category === category);
+    setMenuItems(newItems);
   };
 
   return (
-    <div id="main">
-      <h1>Our Menu</h1>
-      
-      {/* Category Buttons */}
-      <div className="menu-buttons">
-        <button id="filter-btn-0" onClick={() => filterItems("all")}>All</button>
-        <button id="filter-btn-1" onClick={() => filterItems("breakfast")}>Breakfast</button>
-        <button id="filter-btn-2" onClick={() => filterItems("lunch")}>Lunch</button>
-        <button id="filter-btn-3" onClick={() => filterItems("shakes")}>Shakes</button>
-      </div>
-
-      {/* Menu Items */}
-      <div className="menu-items">
-        {menuItems.map(item => (
-          <div key={item.id} className="menu-item" data-test-id={`menu-item-${item.category}`}>
-            <img src={item.img} alt={item.title} />
-            <div className="item-info">
-              <header>
-                <h4>{item.title}</h4>
-                <h4 className="price">${item.price}</h4>
-              </header>
-              <p>{item.desc}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+    <main>
+      <section className="menu section">
+        <div className="title">
+          <h2>Our Menu</h2>
+          <div className="underline"></div>
+        </div>
+        <div className="btn-container">
+          {categories.map((category, index) => (
+            <button
+              key={index}
+              className={`filter-btn ${activeCategory === category ? 'active' : ''}`}
+              onClick={() => filterItems(category)}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+        <Menu items={menuItems} />
+      </section>
+    </main>
   );
 };
 
