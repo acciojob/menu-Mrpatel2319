@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/App.css'; // Updated import path
+import '../styles/App.css';
 
 // Menu items data
 const menuItems = [
@@ -80,46 +80,48 @@ function App() {
   };
 
   return (
-    <div className="menu-container" data-testid="menu-container">
-      <h1 className="menu-title">Our Menu</h1>
-      
-      {/* Category Filter Buttons */}
-      <div className="category-buttons">
-        {categories.map((category) => (
-          <button
-            key={category.name}
-            id={category.testId}
-            data-testid={category.testId}
-            className={`category-btn ${activeCategory === category.name ? 'active' : ''}`}
-            onClick={() => filterItems(category.name)}
-          >
-            {category.name}
-          </button>
-        ))}
-      </div>
+    <div id="main">
+      <div className="menu-container" data-testid="menu-container">
+        <h1 className="menu-title">Our Menu</h1>
+        
+        {/* Category Filter Buttons */}
+        <div className="category-buttons">
+          {categories.map((category) => (
+            <button
+              key={category.name}
+              id={category.testId}
+              data-testid={category.testId}
+              className={`category-btn ${activeCategory === category.name ? 'active' : ''}`}
+              onClick={() => filterItems(category.name)}
+            >
+              {category.name}
+            </button>
+          ))}
+        </div>
 
-      {/* Menu Items Grid */}
-      <div className="menu-items-grid" data-testid="menu-items-grid">
-        {menuList.map((item) => (
-          <div 
-            key={item.id} 
-            className="menu-item"
-            data-testid={`menu-item-${item.category.toLowerCase()}`}
-          >
-            <img 
-              src={item.image} 
-              alt={item.name} 
-              className="menu-item-image" 
-            />
-            <div className="menu-item-details">
-              <div className="menu-item-header">
-                <h3 className="menu-item-name">{item.name}</h3>
-                <span className="menu-item-price">${item.price.toFixed(2)}</span>
+        {/* Menu Items Grid */}
+        <div className="menu-items-grid" data-testid="menu-items-grid">
+          {menuList.map((item) => (
+            <div 
+              key={item.id} 
+              className="menu-item"
+              data-test-id={`menu-item-${item.category.toLowerCase()}`}
+            >
+              <img 
+                src={item.image} 
+                alt={item.name} 
+                className="menu-item-image" 
+              />
+              <div className="menu-item-details">
+                <div className="menu-item-header">
+                  <h3 className="menu-item-name">{item.name}</h3>
+                  <span className="menu-item-price">${item.price.toFixed(2)}</span>
+                </div>
+                <p className="menu-item-description">{item.description}</p>
               </div>
-              <p className="menu-item-description">{item.description}</p>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
