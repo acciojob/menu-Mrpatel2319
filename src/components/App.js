@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './styles.css'; // Ensure this path is correct
+import '../styles/App.css'; // Updated import path
 
 // Menu items data
 const menuItems = [
@@ -54,9 +54,16 @@ const menuItems = [
 ];
 
 function App() {
-  // State for managing active category and filtered items
   const [activeCategory, setActiveCategory] = useState('All');
   const [menuList, setMenuList] = useState(menuItems);
+
+  // Predefined categories with specific test IDs
+  const categories = [
+    { name: 'All', testId: 'filter-btn-0' },
+    { name: 'Breakfast', testId: 'filter-btn-1' },
+    { name: 'Lunch', testId: 'filter-btn-2' },
+    { name: 'Shakes', testId: 'filter-btn-3' }
+  ];
 
   // Category filtering function
   const filterItems = (category) => {
@@ -72,21 +79,13 @@ function App() {
     }
   };
 
-  // Categories for filtering with data attributes for testing
-  const categories = [
-    { name: 'All', testId: 'filter-btn-0' },
-    { name: 'Breakfast', testId: 'filter-btn-1' },
-    { name: 'Lunch', testId: 'filter-btn-2' },
-    { name: 'Shakes', testId: 'filter-btn-3' }
-  ];
-
   return (
     <div className="menu-container" data-testid="menu-container">
       <h1 className="menu-title">Our Menu</h1>
       
       {/* Category Filter Buttons */}
       <div className="category-buttons">
-        {categories.map((category, index) => (
+        {categories.map((category) => (
           <button
             key={category.name}
             id={category.testId}
