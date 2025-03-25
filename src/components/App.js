@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './styles.css';
+import './styles.css'; // Ensure this path is correct
 
-// Menu items data (as defined above)
+// Menu items data
 const menuItems = [
   {
     id: 1,
@@ -9,7 +9,7 @@ const menuItems = [
     category: 'Breakfast',
     price: 15.99,
     image: 'pancakes-image-url',
-    description: 'I\'m baby woke mlkshk wolf bitters live-edge blue bottle, hammock freegan copper mug whatever cold-pressed'
+    description: 'Breakfast dish description'
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ const menuItems = [
     category: 'Lunch',
     price: 13.99,
     image: 'burger-image-url',
-    description: 'vaporware iPhone mumblecore selvage raw denim slow-carb leggings gochujang helvetica man braid jianbing. Marfa thundercats'
+    description: 'Lunch dish description'
   },
   {
     id: 3,
@@ -25,7 +25,7 @@ const menuItems = [
     category: 'Shakes',
     price: 6.99,
     image: 'milkshake-image-url',
-    description: 'ombucha chillwave fanny pack 3 wolf moon street art photo booth before they sold out organic viral.'
+    description: 'Shake dish description'
   },
   {
     id: 4,
@@ -33,7 +33,7 @@ const menuItems = [
     category: 'Breakfast',
     price: 20.99,
     image: 'breakfast-image-url',
-    description: 'Shabby chic keffiyeh neutra snackwave pork belly shoreditch. Prism austin mlkshk truffaut'
+    description: 'Another breakfast dish description'
   },
   {
     id: 5,
@@ -41,7 +41,7 @@ const menuItems = [
     category: 'Lunch',
     price: 22.99,
     image: 'egg-attack-image-url',
-    description: 'franzen vegan pabst bicycle rights kickstarter'
+    description: 'Another lunch dish description'
   },
   {
     id: 6,
@@ -49,7 +49,7 @@ const menuItems = [
     category: 'Shakes',
     price: 18.99,
     image: 'oreo-shake-image-url',
-    description: 'Portland chicharrones ethical edison bulb'
+    description: 'Another shake dish description'
   }
 ];
 
@@ -72,30 +72,41 @@ function App() {
     }
   };
 
-  // Categories for filtering
-  const categories = ['All', 'Breakfast', 'Lunch', 'Shakes'];
+  // Categories for filtering with data attributes for testing
+  const categories = [
+    { name: 'All', testId: 'filter-btn-0' },
+    { name: 'Breakfast', testId: 'filter-btn-1' },
+    { name: 'Lunch', testId: 'filter-btn-2' },
+    { name: 'Shakes', testId: 'filter-btn-3' }
+  ];
 
   return (
-    <div className="menu-container">
+    <div className="menu-container" data-testid="menu-container">
       <h1 className="menu-title">Our Menu</h1>
       
       {/* Category Filter Buttons */}
       <div className="category-buttons">
-        {categories.map((category) => (
+        {categories.map((category, index) => (
           <button
-            key={category}
-            className={`category-btn ${activeCategory === category ? 'active' : ''}`}
-            onClick={() => filterItems(category)}
+            key={category.name}
+            id={category.testId}
+            data-testid={category.testId}
+            className={`category-btn ${activeCategory === category.name ? 'active' : ''}`}
+            onClick={() => filterItems(category.name)}
           >
-            {category}
+            {category.name}
           </button>
         ))}
       </div>
 
       {/* Menu Items Grid */}
-      <div className="menu-items-grid">
+      <div className="menu-items-grid" data-testid="menu-items-grid">
         {menuList.map((item) => (
-          <div key={item.id} className="menu-item">
+          <div 
+            key={item.id} 
+            className="menu-item"
+            data-testid={`menu-item-${item.category.toLowerCase()}`}
+          >
             <img 
               src={item.image} 
               alt={item.name} 
