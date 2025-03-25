@@ -1,84 +1,117 @@
-// src/components/App.js
 import React, { useState } from 'react';
+import './styles.css';
 
+// Menu items data (as defined above)
 const menuItems = [
   {
     id: 1,
-    title: "Buttermilk Pancakes",
-    category: "Breakfast",
+    name: 'Buttermilk Pancakes',
+    category: 'Breakfast',
     price: 15.99,
-    img: "./images/item-1.jpeg",
-    desc: "I'm baby woke mlkshk wolf bitters live-edge blue bottle, hammock freegan copper mug whatever cold-pressed"
+    image: 'pancakes-image-url',
+    description: 'I\'m baby woke mlkshk wolf bitters live-edge blue bottle, hammock freegan copper mug whatever cold-pressed'
   },
   {
     id: 2,
-    title: "Diner Double",
-    category: "Lunch",
+    name: 'Diner Double',
+    category: 'Lunch',
     price: 13.99,
-    img: "./images/item-2.jpeg",
-    desc: "vaporware iPhone mumblecore selvage raw denim slow-carb leggings gochujang helvetica man braid jianbing"
+    image: 'burger-image-url',
+    description: 'vaporware iPhone mumblecore selvage raw denim slow-carb leggings gochujang helvetica man braid jianbing. Marfa thundercats'
   },
   {
     id: 3,
-    title: "Godzilla Milkshake",
-    category: "Shakes",
+    name: 'Godzilla Milkshake',
+    category: 'Shakes',
     price: 6.99,
-    img: "./images/item-3.jpeg",
-    desc: "ombucha chillwave fanny pack 3 wolf moon street art photo booth before they sold out organic viral."
+    image: 'milkshake-image-url',
+    description: 'ombucha chillwave fanny pack 3 wolf moon street art photo booth before they sold out organic viral.'
+  },
+  {
+    id: 4,
+    name: 'Country Delight',
+    category: 'Breakfast',
+    price: 20.99,
+    image: 'breakfast-image-url',
+    description: 'Shabby chic keffiyeh neutra snackwave pork belly shoreditch. Prism austin mlkshk truffaut'
+  },
+  {
+    id: 5,
+    name: 'Egg Attack',
+    category: 'Lunch',
+    price: 22.99,
+    image: 'egg-attack-image-url',
+    description: 'franzen vegan pabst bicycle rights kickstarter'
+  },
+  {
+    id: 6,
+    name: 'Oreo Dream',
+    category: 'Shakes',
+    price: 18.99,
+    image: 'oreo-shake-image-url',
+    description: 'Portland chicharrones ethical edison bulb'
   }
 ];
 
 function App() {
-  const [items, setItems] = useState(menuItems);
+  // State for managing active category and filtered items
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [menuList, setMenuList] = useState(menuItems);
 
+  // Category filtering function
   const filterItems = (category) => {
-    if (category === "All") {
-      setItems(menuItems);
+    setActiveCategory(category);
+    
+    if (category === 'All') {
+      setMenuList(menuItems);
     } else {
-      const newItems = menuItems.filter((item) => item.category === category);
-      setItems(newItems);
+      const filteredItems = menuItems.filter(
+        (item) => item.category === category
+      );
+      setMenuList(filteredItems);
     }
   };
 
+  // Categories for filtering
+  const categories = ['All', 'Breakfast', 'Lunch', 'Shakes'];
+
   return (
-    <main>
-      <section className="menu section">
-        <div className="title">
-          <h2>Our Menu</h2>
-        </div>
-        <div className="btn-container">
-          <button id="filter-btn-0" onClick={() => filterItems("All")}>
-            All
+    <div className="menu-container">
+      <h1 className="menu-title">Our Menu</h1>
+      
+      {/* Category Filter Buttons */}
+      <div className="category-buttons">
+        {categories.map((category) => (
+          <button
+            key={category}
+            className={`category-btn ${activeCategory === category ? 'active' : ''}`}
+            onClick={() => filterItems(category)}
+          >
+            {category}
           </button>
-          <button id="filter-btn-1" onClick={() => filterItems("Breakfast")}>
-            Breakfast
-          </button>
-          <button id="filter-btn-2" onClick={() => filterItems("Lunch")}>
-            Lunch
-          </button>
-          <button id="filter-btn-3" onClick={() => filterItems("Shakes")}>
-            Shakes
-          </button>
-        </div>
-        <div className="section-center">
-          {items.map((menuItem) => {
-            const { id, title, img, desc, price } = menuItem;
-            return (
-              <article key={id} className="menu-item">
-                <img src={img} alt={title} className="photo" />
-                <div className="item-info">
-                  <header>
-                    <h4>{title}</h4>
-                    <h4 className="price">${price}</h4>
-                  </header>
-                  <p className="item-text">{desc}</p>
-                </div>
-              </article>
-            );
-          })}
-        </div>
-      </section>
-    </main>
+        ))}
+      </div>
+
+      {/* Menu Items Grid */}
+      <div className="menu-items-grid">
+        {menuList.map((item) => (
+          <div key={item.id} className="menu-item">
+            <img 
+              src={item.image} 
+              alt={item.name} 
+              className="menu-item-image" 
+            />
+            <div className="menu-item-details">
+              <div className="menu-item-header">
+                <h3 className="menu-item-name">{item.name}</h3>
+                <span className="menu-item-price">${item.price.toFixed(2)}</span>
+              </div>
+              <p className="menu-item-description">{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
